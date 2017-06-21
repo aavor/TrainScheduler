@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Train Scheduler</title>
+  <!-- Added Moment JS -->
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+  <h2>Train Schedule</h2>           
+  <table class="table table-striped">
+    
+    <div id="tableborder">
+    <h4>Current Train Schedule</h4>
+    <thead>
+      <tr>
+        <th>Train Name</th>
+        <th>Destination</th>
+        <th>Frequency (min)</th>
+        <th>Next Arrival</th>
+        <th>Minutes Away</th>
+      </tr>
+    </thead>
+    </div>
+
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+        <td id="nextTime"></td>
+        <td id="nextTrain"></td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td>mary@example.com</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td>july@example.com</td>
+      </tr>
+    </tbody>
+  
+  </table>
+
+</div>
+
+  <!-- Script -->
+  <script>
+
+    // Assumptions
+    var tFrequency = 15;
+    // Time is 3:30 AM
+    var firstTime = "09:30";
+    // First Time (pushed back 1 year to make sure it comes before current time)
+    var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
+    // console.log(firstTimeConverted);
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+    // Time apart (remainder)
+    var tRemainder = diffTime % tFrequency;
+    console.log("THE LAST TRAIN CAME " + tRemainder + " MINUTES AGO");
+    // Minute Until Train
+    var tMinutesTillTrain = tFrequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+    document.getElementById("nextTrain").innerHTML = tMinutesTillTrain;
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    var timeDisplay = moment(nextTrain).format("hh:mm");
+    document.getElementById("nextTime").innerHTML = timeDisplay;
+
+
+        function updateForm() {
+        var product = document.getElementById("product").value;
+
+        var qty = document.getElementById("quantity").value;
+        qtyTotal = qtyTotal + parseInt(qty);
+        document.getElementById("qtyTotals").innerHTML=qtyTotal;
+
+        var price = document.getElementById("price").value;    
+        priceTotal = priceTotal + parseInt(price);
+        document.getElementById("priceTotals").innerHTML=priceTotal;
+
+        var table=document.getElementById("results");
+        var row=table.insertRow(-1);
+        var cell1=row.insertCell(0);
+        var cell2=row.insertCell(1);
+        var cell3=row.insertCell(2);
+        cell1.innerHTML=product;
+        cell2.innerHTML=qty;        
+        cell3.innerHTML=price;           
+    }
+  </script>
+</body>
+</html>
